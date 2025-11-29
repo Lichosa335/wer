@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <style>
+            body {
+                    background-image: url(весы0.png);
+                    background-size: cover;
+                    background-position: center;
+                    background-attachment: fixed;
+                    background-repeat: no-repeat;
+                    width: 1500px;
+
+
+            }
+                .cell {
+                    transition: all 0.3s ease;
+                    cursor: pointer;
+                    min-height: 80px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                }
+
+                .cell:hover {
+                    transform: scale(1.05);
+                }
+
+                .cell.correct {
+                    background-color: #28a745 !important;
+                    border-color: #fff !important;
+                }
+
+                .cell.incorrect {
+                    background-color: #dc3545 !important;
+                    border-color: #fff !important;
+                }
+
+                .stats {
+                    font-size: 1.2rem;
+                    font-weight: bold;
+                }
+                        .bottom-right-image
+                        {
+                            position: absolute;
+                            right: 20px;
+                            bottom: 20px;
+                            max-width: 200px;
+                        }
+
+            .bg-color
+                {
+                    background-color: #fcdc50 !important;
+                }
+
+            .cell-color
+                {
+                    background-color: #ffd1dc !important;
+                }
+            .text-color
+        {
+            color: #992344;
+        }
+
+
+        </style>
+        <title>Когнитивный реактор</title>
+
+
+    </head>
+    <body>
+        <div class="position-fixed ">
+            <div>
+                <a href="osnow.html" class="btn ms-2 mt-2" style="width: 150px; background-color: rgb(242, 161, 202)"><h5>Назад</h5></a>
+            </div>
+            <div class="position-fixed ">
+                <a href="tabl.html" class="btn ms-2 mt-2" style="width: 150px; background-color: rgb(252, 220, 80)"><h5>Тест</h5></a>
+            </div>
+        </div>>
+        <div class="row">
+            <div class="col-6">
+              <div class=" mt-5 mr-5 text-white ">
+                <div class="text-center text-color">
+                    <h1>
+                        Правилa
+                    </h1>
+                </div>
+                  <div class="bg-white rounded   p-5 my-3 text-color"  style="height: 800px">
+                      <h3>
+                      Концепция тренажера: "Когнитивный Реактор"
+                      </h3>
+                           <h3>
+                               Цель:
+                           </h3>
+                            <div class="h5">
+                                <div>
+                                    Кликай на зеленые ячейки ✔️ → +1 балл
+                                </div>
+                                <div>
+                                    Избегай красные ячейки ❌ → -1 балл
+                                </div>
+                                <div>
+                                    Не трогай желтые ячейки ⚡ → 0 баллов
+                                </div>
+                            </div>
+                        <h3>Как играть:</h3>
+                        <div class="h5">
+                            <div>
+                                Нажми кнопку "Играть"
+                            </div>
+                            <div>
+                                Ячейки меняют цвет каждые 2 секунды
+                            </div>
+                            <div>
+                                Кликай только на зеленые галочки
+                            </div>
+                            <div>
+                                Управляй импульсами - не жми наугад!
+                            </div>
+                            <div>
+                                Набери максимум очков за 60 секунд
+                            </div>
+                        </div>
+
+                      <div class="stats mt-4 p-3 bg- rounded text-center ">
+                          <div class="mb-2 h2">
+                               <strong>Счет:</strong>
+                              <span id="score" class="text-primary">0</span>
+                          </div>
+                          <div class="mb-2 h2">
+                               <strong>Уровень:</strong>
+                              <span id="level" class="text-success">1</span>
+                          </div>
+                          <div class="h2">
+                              ️ <strong>Время:</strong>
+                              <span id="timer" class="text-danger">60</span> сек
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>  <!- Поле правил -->
+            <div class="col-6">
+                <div class="text-color mt-5 mr-5 text-center">
+                    <h1>Игровая зона</h1>
+                </div>
+
+
+              <div class="bg-color p-5 rounded text-center my-3  ">
+                        <button class="btn btn-light btn-lg w-75 text-dark" data-bs-toggle="modal" data-bs-target="#play">
+                            Играть
+                        </button>
+
+              </div>
+            </div>  <!- Поле картинки и игры-->
+        </div>
+        <div class="modal fade" id="play">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content bg-color">
+                <div class="modal-header border-warning">
+                    <h3 class="modal-title text-white">Когнитивный реактор</h3>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                    <div class="row ">
+                        <div class="col-12 text-center">
+                            <div class="stats">
+                                <span class="badge bg-success me-3">Счет: <span id="gameScore">0</span></span>
+                                <span class="badge bg-warning me-3">Уровень: <span id="gameLevel">1</span></span>
+                                <span class="badge bg-danger">Время: <span id="gameTimer">60</span></span>
+                            </div>
+                        </div>
+                    </div>
+                <div class="modal-body bg-light text-white" style=" height: 5000px;">
+                        <div class="container-fluid h-10" style=" width: 1400px; ">
+                            <div class="row h-10 align-items-center justify-content-center" >
+                                <div class="col-12 text-center ">
+                                    <div class="game-grid " style=" max-width: 6000px;">
+                                        <div class="row mb-2 bg-light p-3 text-white text-white rounded " style="max-width: 5000px; height:520px;   ">
+                                            <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(0)">
+                                                    <span id="cell-content-0">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(1)">
+                                                    <span id="cell-content-1">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(2)">
+                                                    <span id="cell-content-2">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(3)">
+                                                    <span id="cell-content-3">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(4)">
+                                                    <span id="cell-content-4">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(5)">
+                                                    <span id="cell-content-5">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(6)">
+                                                    <span id="cell-content-6">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(7)">
+                                                    <span id="cell-content-7">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(8)">
+                                                    <span id="cell-content-8">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(9)">
+                                                    <span id="cell-content-9">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(10)">
+                                                    <span id="cell-content-10">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(11)">
+                                                    <span id="cell-content-11">⚡</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(12)">
+                                                    <span id="cell-content-12">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(13)">
+                                                    <span id="cell-content-13">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(14)">
+                                                    <span id="cell-content-14">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(15)">
+                                                    <span id="cell-content-15">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(16)">
+                                                    <span id="cell-content-16">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(17)">
+                                                    <span id="cell-content-17">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(18)">
+                                                    <span id="cell-content-18">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(19)">
+                                                    <span id="cell-content-19">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(20)">
+                                                    <span id="cell-content-20">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(21)">
+                                                    <span id="cell-content-21">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(22)">
+                                                    <span id="cell-content-22">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(23)">
+                                                    <span id="cell-content-23">⚡</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(24)">
+                                                    <span id="cell-content-24">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(25)">
+                                                    <span id="cell-content-25">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(26)">
+                                                    <span id="cell-content-26">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(27)">
+                                                    <span id="cell-content-27">⚡</span>
+                                                </div>
+                                            </div>
+                                             <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(28)">
+                                                    <span id="cell-content-28">⚡</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="cell border border-3 border-warning p-4 m-1 rounded cell-color text-center"
+                                                     onclick="handleCellClick(29)">
+                                                    <span id="cell-content-29">⚡</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div>
+                                                    <button class="btn btn-danger  mt-4" onclick="resetGame()">Сбросить</button>
+                                                </div>
+                                                <div>
+                                                    <button class="btn btn-warning mt-2" data-bs-dismiss="modal">Выйти</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Игровые переменные
+        let score = 0;
+        let level = 1;
+        let timeLeft = 60;
+        let gameInterval;
+        let colorInterval;
+        let isGameRunning = false;
+
+        // Элементы интерфейса
+        const scoreElement = document.getElementById('score');
+        const gameScoreElement = document.getElementById('gameScore');
+        const levelElement = document.getElementById('level');
+        const gameLevelElement = document.getElementById('gameLevel');
+        const timerElement = document.getElementById('timer');
+        const gameTimerElement = document.getElementById('gameTimer');
+
+        // Цвета для ячеек
+        const colors = [
+            { class: 'bg-success', points: 1, text: '✔️' },    // Зеленый - +1
+            { class: 'bg-danger', points: -1, text: '❌' },    // Красный - -1
+            { class: 'bg-warning', points: 0, text: '⚡' }     // Желтый - пропустить
+        ];
+
+        // Функция обработки клика по ячейке
+        function handleCellClick(cellIndex) {
+            if (!isGameRunning) return;
+
+            const cells = document.querySelectorAll('.cell');
+            const cell = cells[cellIndex];
+            const currentColorClass = getCurrentColorClass(cell);
+
+            // Проверяем какой цвет у ячейки
+            if (currentColorClass === 'bg-success') {
+                // Зеленая ячейка - правильный клик
+                score += 1;
+                cell.classList.add('correct');
+                setTimeout(() => cell.classList.remove('correct'), 300);
+            } else if (currentColorClass === 'bg-danger') {
+                // Красная ячейка - неправильный клик
+                score -= 1;
+                cell.classList.add('incorrect');
+                setTimeout(() => cell.classList.remove('incorrect'), 300);
+            }
+            // Желтую ячейку игнорируем
+
+            updateScore();
+        }
+
+        // Функция для получения текущего цвета ячейки
+        function getCurrentColorClass(cell) {
+            if (cell.classList.contains('bg-success')) return 'bg-success';
+            if (cell.classList.contains('bg-danger')) return 'bg-danger';
+            if (cell.classList.contains('bg-warning')) return 'bg-warning';
+            return '';
+        }
+
+        // Функция обновления счета
+        function updateScore() {
+            scoreElement.textContent = score;
+            gameScoreElement.textContent = score;
+
+            // Обновляем уровень каждые 5 очков
+            const newLevel = Math.floor(score / 5) + 1;
+            if (newLevel !== level) {
+                level = newLevel;
+                levelElement.textContent = level;
+                gameLevelElement.textContent = level;
+            }
+        }
+
+        // Функция смены цветов ячеек
+        function changeColors() {
+            const cells = document.querySelectorAll('.cell');
+            cells.forEach(cell => {
+                cell.classList.remove('bg-success', 'bg-danger', 'bg-warning', 'correct', 'incorrect');
+
+                // НОВАЯ ЛОГИКА: больше красных и желтых
+                const random = Math.random(); // от 0 до 1
+                let color;
+
+                if (random < 0.4) { // 40% шанс - КРАСНЫЙ
+                    color = colors[1];
+                } else if (random < 0.8) { // 40% шанс - ЖЕЛТЫЙ
+                    color = colors[2];
+                } else { // 20% шанс - ЗЕЛЕНЫЙ
+                    color = colors[0];
+                }
+
+                cell.classList.add(color.class);
+                const span = cell.querySelector('span');
+                if (span) span.textContent = color.text;
+            });
+        }
+
+        // Функция таймера
+        function updateTimer() {
+            timeLeft--;
+            timerElement.textContent = timeLeft;
+            gameTimerElement.textContent = timeLeft;
+
+            if (timeLeft <= 0) {
+                endGame();
+            }
+        }
+
+        // Функция начала игры
+        function startGame() {
+            score = 0;
+            level = 1;
+            timeLeft = 60;
+            isGameRunning = true;
+
+            updateScore();
+
+            // Запускаем интервалы
+            gameInterval = setInterval(updateTimer, 1000);
+            colorInterval = setInterval(changeColors, 2000);
+
+            // Начальная смена цветов
+            changeColors();
+        }
+
+        // Функция сброса игры
+        function resetGame() {
+            clearInterval(gameInterval);
+            clearInterval(colorInterval);
+            startGame();
+        }
+
+        // Функция окончания игры
+            function endGame() {
+                isGameRunning = false;
+                clearInterval(gameInterval);
+                clearInterval(colorInterval);
+                alert(`
+                 Игра окончена!
+                 Ваш счет: ${score}
+                 Ваш уровень: ${level}
+
+                 Низкий - 10-
+                 Средний - 11 до 13
+                 Высокий - 14+`);
+            }
+
+        // Запускаем игру при загрузке модального окна
+        document.getElementById('play').addEventListener('shown.bs.modal', startGame);
+
+        // Останавливаем игру при закрытии модального окна
+        document.getElementById('play').addEventListener('hidden.bs.modal', function() {
+            isGameRunning = false;
+            clearInterval(gameInterval);
+            clearInterval(colorInterval);
+        });
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            updateScore();
+        });
+        let isClickBlocked = false;
+
+function handleCellClick(cellIndex) {
+    if (!isGameRunning || isClickBlocked) return;
+
+    isClickBlocked = true;
+
+    const cells = document.querySelectorAll('.cell');
+    const cell = cells[cellIndex];
+    const currentColorClass = getCurrentColorClass(cell);
+
+    if (currentColorClass === 'bg-success') {
+        score += 1;
+        cell.classList.add('correct');
+        setTimeout(() => cell.classList.remove('correct'), 300);
+    } else if (currentColorClass === 'bg-danger') {
+        score -= 1;
+        cell.classList.add('incorrect');
+        setTimeout(() => cell.classList.remove('incorrect'), 300);
+    }
+
+    updateScore();
+
+    // Разблокируем через небольшой промежуток
+    setTimeout(() => {
+        isClickBlocked = false;
+    }, 300);
+}
+    </script>
+
+</html>

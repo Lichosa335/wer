@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Тест Шульте</title>
+    <style>
+
+        .schulte-container {
+            background: primary ;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        .schulte-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .schulte-cell {
+            width: 80px;
+            height: 80px;
+            border: 2px solid #4a5568;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f7fafc;
+        }
+
+        .schulte-cell:hover {
+            transform: scale(1.05);
+            background: #e2e8f0;
+        }
+
+        .schulte-cell.active {
+            background: #48bb78;
+            color: white;
+            border-color: #2f855a;
+        }
+
+        .schulte-cell.completed {
+            background: #ed8936;
+            color: white;
+            border-color: #dd6b20;
+        }
+
+        .stats {
+            background: #edf2f7;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .timer {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .btn-custom {
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .results-table {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="position-fixed ">
+        <div >
+                <a href="osnow.html" class="btn btn-dark ms-5 mt-5 " style="height: 80px; width: 300px; "> <h1>Назад</h1></a>
+        </div>
+        <div class=" ">
+                <a href="swet.html" class="btn btn-secondary ms-5 mt-5 " style="height: 80px; width: 300px; "> <h3>Тренажер</h3></a>
+        </div>
+    </div>
+        <div class="container py-5">
+        <div class="schulte-container text-center">
+            <h1 class="mb-4"> Тест Шульте</h1>
+            <p class="lead mb-4">Найдите и кликайте числа по порядку от 1 до 25 как можно быстрее!</p>
+
+            <div class="stats">
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <h5>Время</h5>
+                        <div class="timer" id="timer">00.00</div>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Текущее число</h5>
+                        <div class="h3 text-" id="currentNumber">1</div>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Попытка</h5>
+                        <div class="h4 text-" id="attemptCount">1</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="schulte-grid" id="schulteGrid">
+                <!-- Ячейки будут сгенерированы JavaScript -->
+            </div>
+
+            <div class="mt-4">
+                <button class="btn btn-dark me-3" onclick="startGame()" > Начать игру</button>
+                <button class="btn btn-secondary" onclick="resetGame()"> Сбросить</button>
+            </div>
+
+            <!-- Таблица результатов -->
+            <div class="results-table mt-4" id="resultsTable" style="display: none;">
+                <h4 class="mb-3"> Ваши результаты</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Попытка</th>
+                            <th>Время</th>
+                            <th>Дата</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsBody">
+                        <!-- Результаты будут добавлены сюда -->
+                    </tbody>
+                </table>
+                <button class="btn btn-outline-primary btn-sm" onclick="clearResults()">Очистить историю</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Игровые переменные
+        let startTime;
+        let timerInterval;
+        let currentNumber = 1;
+        let isGameRunning = false;
+        let attemptCount = 1;
+        let results = [];
+
+        // Загрузка результатов из localStorage
+        function loadResults() {
+            const savedResults = localStorage.getItem('schulteResults');
+            if (savedResults) {
+                results = JSON.parse(savedResults);
+            }
+        }
+
+        // Сохранение результатов в localStorage
+        function saveResults() {
+            localStorage.setItem('schulteResults', JSON.stringify(results));
+        }
+
+        // Генерация сетки Шульте
+        function generateGrid() {
+            const grid = document.getElementById('schulteGrid');
+            grid.innerHTML = '';
+
+            // Создаем массив чисел от 1 до 25 и перемешиваем
+            const numbers = Array.from({length: 25}, (_, i) => i + 1);
+            shuffleArray(numbers);
+
+            numbers.forEach(number => {
+                const cell = document.createElement('div');
+                cell.className = 'schulte-cell';
+                cell.textContent = number;
+                cell.onclick = () => handleCellClick(cell, number);
+                grid.appendChild(cell);
+            });
+        }
+
+        // Перемешивание массива (алгоритм Фишера-Йетса)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Обработка клика по ячейке
+        function handleCellClick(cell, number) {
+            if (!isGameRunning || number !== currentNumber) return;
+
+            cell.classList.add('active');
+            setTimeout(() => {
+                cell.classList.remove('active');
+                cell.classList.add('completed');
+            }, 200);
+
+            currentNumber++;
+            document.getElementById('currentNumber').textContent = currentNumber;
+
+            // Проверка завершения игры
+            if (currentNumber > 25) {
+                endGame();
+            }
+        }
+
+        // Запуск игры
+        function startGame() {
+            if (isGameRunning) return;
+
+            isGameRunning = true;
+            currentNumber = 1;
+            startTime = Date.now();
+
+            document.getElementById('currentNumber').textContent = currentNumber;
+            document.getElementById('attemptCount').textContent = attemptCount;
+
+            generateGrid();
+            startTimer();
+        }
+
+        // Запуск таймера
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(updateTimer, 10);
+        }
+
+        // Обновление таймера
+        function updateTimer() {
+            const currentTime = Date.now();
+            const elapsedTime = (currentTime - startTime) / 1000;
+            document.getElementById('timer').textContent = elapsedTime.toFixed(2);
+        }
+
+        // Завершение игры
+        function endGame() {
+            isGameRunning = false;
+            clearInterval(timerInterval);
+
+            const endTime = Date.now();
+            const totalTime = ((endTime - startTime) / 1000).toFixed(2);
+
+            // Сохраняем результат
+            const result = {
+                attempt: attemptCount,
+                time: totalTime,
+                date: new Date().toLocaleString()
+            };
+
+            results.push(result);
+            saveResults();
+
+            // Показываем результат
+            alert(` Поздравляем!\nВы завершили тест за ${totalTime} секунд!`);
+
+            attemptCount++;
+            showResults();
+        }
+
+        // Сброс игры
+        function resetGame() {
+            isGameRunning = false;
+            clearInterval(timerInterval);
+            currentNumber = 1;
+
+            document.getElementById('timer').textContent = '00.00';
+            document.getElementById('currentNumber').textContent = '1';
+            document.getElementById('schulteGrid').innerHTML = '';
+        }
+
+        // Показ результатов
+        function showResults() {
+            const resultsBody = document.getElementById('resultsBody');
+            const resultsTable = document.getElementById('resultsTable');
+
+            resultsBody.innerHTML = '';
+            results.forEach(result => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${result.attempt}</td>
+                    <td>${result.time} сек</td>
+                    <td>${result.date}</td>
+                `;
+                resultsBody.appendChild(row);
+            });
+
+            resultsTable.style.display = 'block';
+        }
+
+        // Очистка результатов
+        function clearResults() {
+            if (confirm('Вы уверены, что хотите очистить историю результатов?')) {
+                results = [];
+                saveResults();
+                document.getElementById('resultsBody').innerHTML = '';
+                document.getElementById('resultsTable').style.display = 'none';
+            }
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            loadResults();
+            if (results.length > 0) {
+                showResults();
+            }
+        });
+    </script>
+</body>
+</html>
